@@ -5,7 +5,7 @@ Sgvizlerを使用してSPARQLクエリの結果をビジュアライズするた
 以下のように囲み型ショートコードを記述します。
 SPARQLクエリは囲みの中に記述します。
 ```
-[wp_sgv endpoint="http://ja.dbpedia.org/sparql" chart="google.visualization.BarChart" options="chartArea:{left:'100'},title:'The number of cities per prefecture',titleTextStyle:{color:'red', fontSize:'20'},legend:{position:'none'},hAxis:{gridlines:{color:'red'}}" height="600" width="600"]
+[wp_sgv endpoint="http://ja.dbpedia.org/sparql" chart="google.visualization.BarChart" options="chartArea:{left:'100'},title:'The number of cities per prefecture',titleTextStyle:{color:'red', fontSize:'20'},legend:{position:'none'},hAxis:{gridlines:{color:'red'}}" output="json" height="600" width="600"]
   SELECT DISTINCT ?kenmei, COUNT(?shi) AS ?cities WHERE {
     ?ken rdf:type schema:AdministrativeArea ;
     dbpedia-owl:country dbpedia-ja:日本 ;
@@ -26,6 +26,7 @@ SPARQLクエリは囲みの中に記述します。
 |options|チャートのオプションを指定します。有効なJavaScriptコードとして記述する必要があります。|
 |height|チャート描画領域の高さを指定します。|
 |width|チャート描画領域の幅を指定します。|
+|output|出力形式を指定(json/jsonp)|
 
 プラグインをインストールすると、投稿や固定ページの編集画面に以下のようなメタボックスが追加され、メタボックス内でショートコードを生成することができます。
 
