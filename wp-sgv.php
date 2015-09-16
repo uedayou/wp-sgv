@@ -32,7 +32,7 @@ class WPSgv {
   public function wpsgv_activate() {
     add_option('wpsgv_width', '600');
     add_option('wpsgv_height', '600');
-    add_option('wpsgv_endpoints', "http://ja.dbpedia.org/sparql\nhttp://datameti.go.jp/sparql");
+    add_option('wpsgv_endpoints', "http://ja.dbpedia.org/sparql\nhttp://datameti.go.jp/sparql\nhttp://db.lodc.jp/sparq\nhttp://mdlab.slis.tsukuba.ac.jp/sparql");
   }
 
   public static function wpsgv_uninstall() {
@@ -86,6 +86,7 @@ class WPSgv {
       sgv_shortcode.value = "[wp_sgv endpoint =\"" + sgv_endpoint.value + "\"" + 
         " chart=\"" + sgv_chart.value + "\"" +
         " options=\"" + sgv_options.value + "\"" +
+        " output=\"" + sgv_output.value + "\"" +
         " width=\"" + sgv_width.value + "\"" +
         " height=\"" + sgv_height.value + "\"]\n" + 
         sgv_query.value +
@@ -99,14 +100,17 @@ class WPSgv {
     }
     echo '</select><br />';
     echo __('Width', 'wp-sgv').' : <input type="text" id="sgv_width" value="'.$width.'" size="5" /> ';
-    echo __('Height', 'wp-sgv').' : <input type="text" id="sgv_height" value="'.$height.'" size="5" /><br />';
-    echo __('Endpoint', 'wp-sgv').' : <select id="sgv_endpoint">';
+    //echo __('Height', 'wp-sgv').' : <input type="text" id="sgv_height" value="'.$height.'" size="5" /><br />';
+    echo __('Height', 'wp-sgv').' : <input type="text" id="sgv_height" value="'.$height.'" size="5" />';
+    echo __('Output', 'wp-sgv').' : <input type="text" id="sgv_output" value="json" size="5" /><br />';
+    //echo __('Endpoint', 'wp-sgv').' : <select id="sgv_endpoint">';
     $array = explode("\n", $endpoints);
     $array = array_map('trim', $array);
-    foreach($array as $endpoint) {
-      echo '<option value="'.$endpoint.'">'.$endpoint.'</option>';
-    }
-    echo '</select><br />';
+    //foreach($array as $endpoint) {
+    //  echo '<option value="'.$endpoint.'">'.$endpoint.'</option>';
+    //}
+    //echo '</select><br />';
+    echo __('Endpoint', 'wp-sgv').' : <input type="text" id="sgv_endpoint" value="'.$array[0].'" style="max-width:100%;min-width:100%" /><br />';
     echo __('Options', 'wp-sgv').' : <textarea id="sgv_options" rows="2" style="max-width:100%;min-width:100%"></textarea><br />';
     echo __('Query', 'wp-sgv').' : <textarea id="sgv_query" rows="3" style="max-width:100%;min-width:100%"></textarea><br />';
     echo '<a class="button" onClick="sgv_genshortcode();">'.__('Generate shortcode', 'wp-sgv').'</a><br />';
@@ -119,6 +123,7 @@ class WPSgv {
       'endpoint' => '',
       'chart' => 'sgvizler.visualization.Text',
       'options' => '',
+      'output' => 'json',
       'height' => '100',
       'width' => '100'),
         $atts ) );
@@ -143,7 +148,7 @@ class WPSgv {
       q = new sgvizler.Query(null, {'.$options.'});
       q.query(sparqlQueryString)
         .endpointURL("'.$endpoint.'")
-        .endpointOutputFormat("json")
+        .endpointOutputFormat("'.$output.'")
         .chartFunction("'.$chart.'")
         .chartHeight("'.$height.'")
         .chartWidth("'.$width.'")

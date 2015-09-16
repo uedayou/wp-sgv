@@ -26,3 +26,6 @@ msgid "Default Height"
 msgstr "チャート領域の高さ"
 msgid "Endpoints"
 msgstr "エンドポイントのリスト"
+msgid "Output"
+msgstr "フォーマット"
+
